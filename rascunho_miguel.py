@@ -34,7 +34,7 @@ class grid:
         for i in range(2*n+1):
             a=[]
             for j in range(2*n+1):
-                a+=[None]
+                a+=[0]
             r+=[a]
         self.grelha=r
         self.n=n
@@ -94,6 +94,8 @@ class grid:
         infec=[]
         for i in range(pi):
             infec+=[pos(random.randrange(2*self.n+1),random.randrange(2*self.n+1))]
+        
+        
         for i in sus:
             self.inserir(individuo(self.nindividuos,"S"),i)
             self.nindividuos+=1
