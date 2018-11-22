@@ -18,9 +18,10 @@ class Individuo:
         return self._ide
         
 class Grelha:   
-    def __init__(self, n, obstaculos):
+    def __init__(self, N, obstaculos):
         self._obs=obstaculos
-        self._lad=n*2+1 #lado da rede
+        self._n=N
+        self._lad=N*2+1 #lado da rede
         
         self._cen=self._lad//2 #centro da grelha (no python) para trabalhar com coordenadas
         
@@ -34,6 +35,11 @@ class Grelha:
             r[self._cen-i[1]][self._cen+i[0]]="obstaculo"
         self._gre=r
             
+    def numeroindividuos():
+        i=0
+        yield i
+        i+=1
+    
     def inserir(self, individuo, posicao):
         self._gre[self._cen-posicao[1]][self._cen+posicao[0]]=individuo
     
@@ -55,20 +61,46 @@ class Grelha:
     def livre(self, posicao):
         return self._gre[self._cen-posicao[1]][self._cen+posicao[0]]==None
     
-    def dentrogrelha(self, posicao):
-        while posicao[0]>self._lad:
-            posicao[0]=posicao[0]-self._lad+1
-        while posicao[0]<self._lad:
-            posicao[0]=posicao[0]+self._lad-1
-        while posicao[1]>self._lad:
-            posicao[1]=posicao[1]-self._lad+1
-        while posicao[1]<self._lad:
-            posicao[1]=posicao[1]+self._lad-1
-        return posicao
+    def dentrogrelha(self, posi):
+        while posi[0]>self._n:
+            posi[0]=posi[0]-self._lad
+        while posi[0]<-self._n:
+            posi[0]=posi[0]+self._lad
+        while posi[1]>self._n:
+            posi[1]=posi[1]-self._lad
+        while posi[1]<-self._n:
+            posi[1]=posi[1]+self._lad
+        return posi
     
-    def vizinhanca1(posicao):
-        r=[]
-        return r
+    def vizinhanca1(self, posicao):
+        vizinhos=[]
+        translacoes=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]
+        for i in translacoes:
+            vizinhos+=[self.dentrogrelha([posicao[0]+i[0],posicao[1]+i[1]])]
+        return vizinhos
+    
+    def vizinhanca2(self, posicao):
+        vizinhos=[]
+        translacoes=[[-2,-2],[-2,-1],[-2,0],[-2,1],[-2,2],
+                     [-1,-2],[-1,2],[0,-2],[0,2],[1,-2],[1,2],
+                     [2,-2],[2,-1],[2,0],[2,1],[2,2],
+                     ]
+        for i in translacoes:
+            vizinhos+=[self.dentrogrelha([posicao[0]+i[0],posicao[1]+i[1]])]
+        return vizinhos
+    
+    def popular(self, infectados, suscetiveis):
+        for i in range(infectados):
+            pos=[random.randrange(self._n),random.randrange(self._n)]
+            while not self.livre(pos):
+                pos=[random.randrange(self._n),random.randrange(self._n)]
+            self.inserir(Individuo(self.numeroindividuos, "I"), pos)
+        for i in range(suscetiveis):
+            pos=[random.randrange(self._n),random.randrange(self._n)]
+            while not self.livre(pos):
+                pos=[random.randrange(self._n),random.randrange(self._n)]
+            self.inserir(Individuo(self.numeroindividuos, "S"), pos)
+    
     
 class Evento:
     def __init__(self, tempo):
