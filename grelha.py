@@ -1,22 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 20 20:46:02 2018
+Created on Thu Nov 22 13:44:58 2018
 
 @author: miguelf
 """
-        
-import random
 
-class Individuo:
-    def __init__(self, identificador, estado):
-        self._ide=identificador
-        self._est=estado
-    def estado(self):
-        return self._est
-    def identificador(self):
-        return self._ide
-        
 class Grelha:   
     def __init__(self, N, obstaculos):
         self._obs=obstaculos
@@ -164,49 +153,3 @@ class Grelha:
                 j+=1
             i+=1
         return coordenadas
-    
-    
-    
-    
-    def verestados(self):
-        for i in range(len(self._gre)+2):
-            print("*", end=" ")
-        print("")
-        for i in self._gre:
-            print("*", end=" ")
-            for j in i:
-                if j=="obstaculo":
-                    print("*", end=" ")
-                elif j==None:
-                    print("-", end=" ")
-                else:
-                    print(j.estado(), end=" ")
-            print("*")
-        for i in range(len(self._gre)+2):
-            print("*", end=" ")
-    
-    def veridentificadores(self):
-        for i in range(len(self._gre)+2):
-            print("*", end=" ")
-        print("")
-        for i in self._gre:
-            print("*", end=" ")
-            for j in i:
-                if j=="obstaculos":
-                    print("*", end=" ")
-                if j==None:
-                    print("-", end=" ")
-                else:
-                    print(j.identificador(), end=" ")
-            print("*")
-        for i in range(len(self.gre)+2):
-            print("*", end=" ")
-            
-            
-class Evento:
-    def __init__(self,identificador, tipo, tempo):
-        self._ide=identificador
-        self._tip=tipo
-        self.tem=tempo
-        return None
-    
