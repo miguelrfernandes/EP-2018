@@ -185,7 +185,7 @@ class Grelha:
         for i in range(len(self._gre)+2):
             print("*", end=" ")
     
-    def veridentificadores(self):
+    def veridentificadores(self): #não está a funcionar corretamente
         for i in range(len(self._gre)+2):
             print("*", end=" ")
         print("")
