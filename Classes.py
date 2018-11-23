@@ -192,21 +192,51 @@ class Grelha:
         for i in self._gre:
             print("*", end=" ")
             for j in i:
-                if j=="obstaculos":
+                if j=="obstaculo":
                     print("*", end=" ")
-                if j==None:
+                elif j==None:
                     print("-", end=" ")
                 else:
                     print(j.identificador(), end=" ")
             print("*")
-        for i in range(len(self.gre)+2):
+        for i in range(len(self._gre)+2):
             print("*", end=" ")
+            
             
             
 class Evento:
     def __init__(self,identificador, tipo, tempo):
         self._ide=identificador
         self._tip=tipo
-        self.tem=tempo
-        return None
+        self._tem=tempo
+        def tempo(self):
+            return self._tem
+        def tipo(self):
+            return self._tip
+        def identificador(self):
+            return self._ide
+    
+class CAP:
+    def __init__(self):
+        self._cad = []
+
+    def adicionar(self, evento):
+        return [evento1 for evento1 in self._cad if evento.tempo()<evento.tempo()]+[evento]+\
+           [evento1 for evento1 in self._cad if evento.tempo()>evento.tempo()]
+    
+    def remover(self):
+        if len(self._cad)>0:
+            return self._cad[1:]
+        else:
+            print("A função remover() encontrou um erro: A CAP está vazia.")
+            
+    def proximo(self):
+        if len(self._cad)>0:
+            return self._cad[0]
+        else:
+            print("A função proximo() encontrou um erro: A CAP está vazia.")
+        
+    def mostrar(self):
+        for evento in self._cad:
+            print(evento.tempo(), evento.tipo())   
     
