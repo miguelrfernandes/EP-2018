@@ -89,7 +89,7 @@ class Grelha:
             vizinhos+=[self.dentrogrelha([posicao[0]+i[0],posicao[1]+i[1]])]
         return vizinhos
     
-    def popular(self, infectados, suscetiveis):
+    def popular(self, infectados, suscetiveis):  #verificar se é aleatório
         for i in range(infectados):
             pos=[random.randrange(self._n),random.randrange(self._n)]
             while not self.livre(pos):
@@ -221,8 +221,15 @@ class CAP:
         self._cad = []
 
     def adicionar(self, evento):
-        return [evento1 for evento1 in self._cad if evento.tempo()<evento.tempo()]+[evento]+\
-           [evento1 for evento1 in self._cad if evento.tempo()>evento.tempo()]
+        m1=0
+        m2=len(self._cad)-1
+        while m1<=m2:
+            a=(m1+m2)//2
+            if evento.tempo()>self._cad[a].tempo():
+                m1=a-1
+            else:
+                m2=a+1
+        self._cad.insert(m2,evento)
     
     def remover(self):
         if len(self._cad)>0:
@@ -230,6 +237,11 @@ class CAP:
         else:
             print("A função remover() encontrou um erro: A CAP está vazia.")
             
+    def removeridentificador(self, identificador):
+        for evento in self._cad:
+            if evento.identificador()==identificador:
+                self._cad.pop(evento)
+    
     def proximo(self):
         if len(self._cad)>0:
             return self._cad[0]
@@ -239,4 +251,15 @@ class CAP:
     def mostrar(self):
         for evento in self._cad:
             print(evento.tempo(), evento.tipo())   
+            
+def Sim(N, obstaculos, Ps, Pi, Th):
+    gre=Grelha(N, obstaculos)
+    gre.popular(Pi, Ps)
+    cad=CAP()
+    cad.adicionar(Evento(1,"M",4))
+    while _tsim<Th:
+        tsim+=self._cad.proximo().tempo()
+        cad.adicionar(Evento(1,"M",4))
+            
+            
     
