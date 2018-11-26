@@ -58,6 +58,9 @@ class Grelha:
             i+=1
         return pos
     
+    def individuo(self, pos):
+        return self._gre[self._cen-pos[1]][self._cen+pos[0]]
+    
     def livre(self, posicao):
         return self._gre[self._cen-posicao[1]][self._cen+posicao[0]]==None
     
@@ -113,6 +116,18 @@ class Grelha:
             i+=1
         return num
     
+    def coordenadasindividuos(self):
+        coordenadas=[]
+        i=0
+        while i<len(self._gre):
+            j=0
+            while j<len(self._gre):
+                if self._gre[i][j]!="obstaculo" and self._gre[i][j]!=None:
+                    coordenadas+=[[j-self._cen,self._cen-i]]
+                j+=1
+            i+=1
+        return coordenadas
+    
     def coordenadassuscetiveis(self):
         coordenadas=[]
         i=0
@@ -121,7 +136,7 @@ class Grelha:
             while j<len(self._gre):
                 if self._gre[i][j]!="obstaculo" and self._gre[i][j]!=None:
                     if self._gre[i][j].estado()=="S":
-                        coordenadas=[j-self._cen,self._cen-i]
+                        coordenadas+=[[j-self._cen,self._cen-i]]
                 j+=1
             i+=1
         return coordenadas
@@ -134,7 +149,7 @@ class Grelha:
             while j<len(self._gre):
                 if self._gre[i][j]!="obstaculo" and self._gre[i][j]!=None:
                     if self._gre[i][j].estado()=="I":
-                        coordenadas=[j-self._cen,self._cen-i]
+                        coordenadas+=[[j-self._cen,self._cen-i]]
                 j+=1
             i+=1
         return coordenadas
@@ -160,7 +175,7 @@ class Grelha:
             while j<len(self._gre):
                 if self._gre[i][j]!="obstaculo" and self._gre[i][j]!=None:
                     if self._gre[i][j].estado()=="R":
-                        coordenadas=[j-self._cen,self._cen-i]
+                        coordenadas+=[[j-self._cen,self._cen-i]]
                 j+=1
             i+=1
         return coordenadas
@@ -201,7 +216,6 @@ class Grelha:
             print("*")
         for i in range(len(self._gre)+2):
             print("*", end=" ")
-            
             
             
 class Evento:
@@ -252,13 +266,35 @@ class CAP:
         for evento in self._cad:
             print(evento.tempo(), evento.tipo())   
             
-def Sim(N, obstaculos, Ps, Pi, Th):
+def Sim(N, obstaculos, Ps, Pi, Th, pd, pm):
     gre=Grelha(N, obstaculos)
     gre.popular(Pi, Ps)
     cad=CAP()
     cad.adicionar(Evento(1,"M",4))
-    while _tsim<Th:
-        tsim+=self._cad.proximo().tempo()
+    tsim=0
+    while tsim<Th:
+        tsim+=cad.proximo()._tem
+        for posind in gre.coordenadasindividuos():
+            
+            #deslocamento
+            viz1=gre.vizinhanca1(posind)
+            viz1livre=[]
+            for i in viz1:
+                if gre.livre(i):
+                    viz1livre+=i
+            #pelo menos 3 individuos infectados e posicoes livres
+            vizinf=0
+            for i in viz1:
+                if not gre.livre(i) and not isinstance(gre.individuo(i),str):
+                    if gre.individuo(i).estado()=="I":
+                        vizinf+=1
+                    
+            if vizinf>=3 or random.randrange(3)>pd:
+                posdes=[random.randrange(gre._n),random.randrange(gre._n)]
+                while not gre.livre(posdes):
+                    posdes=[random.randrange(gre._n),random.randrange(gre._n)]
+                gre.inserir(gre.individuo(posind), posdes)
+                gre.remover(posind)
         cad.adicionar(Evento(1,"M",4))
             
             
