@@ -448,9 +448,11 @@ No final da simulação, cria-se o gráfico com os valores de x cada entrada de 
 
 **Cenário ‘a’ (ver animação1)** 
 
-![](001.png)
+![](imagens/001.png)
 
 **Cenário ‘b’ (ver animação2) (simulação com percentagem 70%)** 
 
-![](002.png)
+![](imagens/002.png)
+
+<img src="imagens/a.gif" width="200" height="200"> <img src="imagens/b.gif" width="200" height="200">
 
